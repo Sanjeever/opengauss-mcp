@@ -1,0 +1,18 @@
+spring:
+  main:
+    banner-mode: off
+    web-application-type: none
+  datasource:
+    url: ${OPENGAUSS_URL}
+    username: ${OPENGAUSS_USERNAME}
+    password: ${OPENGAUSS_PASSWORD}
+    driver-class-name: org.opengauss.Driver
+  ai:
+    mcp:
+      server:
+        name: opengauss-mcp
+        version: 1.0.0
+        stdio: true
+logging:
+  threshold:
+    console: OFF
