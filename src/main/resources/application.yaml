@@ -7,6 +7,10 @@ spring:
     username: ${OPENGAUSS_USERNAME}
     password: ${OPENGAUSS_PASSWORD}
     driver-class-name: org.opengauss.Driver
+  jackson:
+    default-property-inclusion: always
+    serialization:
+      write-null-map-values: true
   ai:
     mcp:
       server:
