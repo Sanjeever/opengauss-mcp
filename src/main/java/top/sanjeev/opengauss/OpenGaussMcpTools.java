@@ -6,6 +6,11 @@ import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import net.sf.jsqlparser.JSQLParserException;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.statement.ExplainStatement;
+import net.sf.jsqlparser.statement.Statements;
+import net.sf.jsqlparser.statement.select.Select;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -173,6 +178,32 @@ public class OpenGaussMcpTools {
         if (!StringUtils.hasText(sql)) {
             throw new IllegalArgumentException("sql 不能为空");
         }
+        try {
+            Statements statements = CCJSqlParserUtil.parseStatements(sql);
+            if (statements == null || statements.size() != 1) {
+                throw new IllegalArgumentException("仅允许单条 SQL");
+            }
+            net.sf.jsqlparser.statement.Statement statement = statements.get(0);
+            if (!isReadOnlyStatement(statement)) {
+                throw new IllegalArgumentException("仅允许 SELECT / WITH / EXPLAIN");
+            }
+            return;
+        } catch (JSQLParserException ignored) {
+        }
+        validateReadOnlySqlByKeyword(sql);
+    }
+
+    private boolean isReadOnlyStatement(net.sf.jsqlparser.statement.Statement statement) {
+        if (statement instanceof Select) {
+            return true;
+        }
+        if (statement instanceof ExplainStatement explainStatement) {
+            return explainStatement.getStatement() != null;
+        }
+        return false;
+    }
+
+    private void validateReadOnlySqlByKeyword(String sql) {
         String normalized = normalizeSqlHead(sql);
         if (!READ_ONLY_HEAD.matcher(normalized).find()) {
             throw new IllegalArgumentException("仅允许 SELECT / WITH / EXPLAIN");

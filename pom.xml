@@ -15,6 +15,7 @@
         <spring-boot.version>3.5.13</spring-boot.version>
         <spring-ai.version>1.0.3</spring-ai.version>
         <opengauss.version>6.0.3</opengauss.version>
+        <jsqlparser.version>5.3</jsqlparser.version>
     </properties>
 
     <dependencyManagement>
@@ -55,6 +56,11 @@
             <version>${opengauss.version}</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/opengauss-jdbc-6.0.3.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>${jsqlparser.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
