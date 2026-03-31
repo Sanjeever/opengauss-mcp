@@ -3,7 +3,7 @@ spring:
     banner-mode: off
     web-application-type: none
   datasource:
-    url: ${OPENGAUSS_URL}
+    url: jdbc:opengauss://${OPENGAUSS_HOST}:${OPENGAUSS_PORT}/${OPENGAUSS_DATABASE}?currentSchema=${OPENGAUSS_SCHEMA}&options=-c%20TimeZone%3DAsia%2FShanghai%20&sslmode=prefer&channelBinding=prefer&stringtype=unspecified
     username: ${OPENGAUSS_USERNAME}
     password: ${OPENGAUSS_PASSWORD}
     driver-class-name: org.opengauss.Driver

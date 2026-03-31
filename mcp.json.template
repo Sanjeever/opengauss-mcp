@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "opengauss": {
+      "type": "stdio",
+      "command": "java",
+      "args": [
+        "-jar",
+        "./target/opengauss-mcp.jar"
+      ],
+      "env": {
+        "OPENGAUSS_HOST": "127.0.0.1",
+        "OPENGAUSS_PORT": "5432",
+        "OPENGAUSS_DATABASE": "postgres",
+        "OPENGAUSS_SCHEMA": "public",
+        "OPENGAUSS_USERNAME": "your_username",
+        "OPENGAUSS_PASSWORD": "your_password"
+      }
+    }
+  }
+}

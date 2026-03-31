@@ -29,15 +29,7 @@ git clone https://github.com/Sanjeever/opengauss-mcp
 cd opengauss-mcp
 ```
 
-### 2) 配置数据库连接环境变量
-
-```bash
-export OPENGAUSS_URL='jdbc:opengauss://127.0.0.1:5432/postgres?currentSchema=public'
-export OPENGAUSS_USERNAME='your_username'
-export OPENGAUSS_PASSWORD='your_password'
-```
-
-### 3) 构建项目
+### 2) 构建项目
 
 ```bash
 mvn clean package
@@ -47,6 +39,39 @@ mvn clean package
 
 ```text
 target/opengauss-mcp.jar
+```
+
+### 3) 可视化运行（MCP Inspector）
+
+按以下步骤即可在 MCP Inspector 中可视化调试 `opengauss` 服务：
+
+1. 构建项目
+
+```bash
+mvn clean package
+```
+
+2. 复制配置模板
+
+```bash
+cp mcp.json.template mcp.json
+```
+
+3. 修改 `mcp.json` 中 `env` 的数据库连接信息
+
+请根据你的 openGauss 实例更新以下环境变量：
+
+- `OPENGAUSS_HOST`
+- `OPENGAUSS_PORT`
+- `OPENGAUSS_DATABASE`
+- `OPENGAUSS_SCHEMA`
+- `OPENGAUSS_USERNAME`
+- `OPENGAUSS_PASSWORD`
+
+4. 启动 Inspector 并加载 `opengauss` 服务
+
+```bash
+npx @modelcontextprotocol/inspector --config ./mcp.json --server opengauss
 ```
 
 ### 4) 本地启动（stdio 模式）
@@ -69,7 +94,10 @@ java -jar target/opengauss-mcp.jar
         "/absolute/path/to/opengauss-mcp/target/opengauss-mcp.jar"
       ],
       "env": {
-        "OPENGAUSS_URL": "jdbc:opengauss://127.0.0.1:5432/postgres?currentSchema=public",
+        "OPENGAUSS_HOST": "127.0.0.1",
+        "OPENGAUSS_PORT": "5432",
+        "OPENGAUSS_DATABASE": "postgres",
+        "OPENGAUSS_SCHEMA": "public",
         "OPENGAUSS_USERNAME": "your_username",
         "OPENGAUSS_PASSWORD": "your_password"
       }
@@ -113,7 +141,7 @@ java -jar target/opengauss-mcp.jar
 
 请检查：
 
-- `OPENGAUSS_URL`、`OPENGAUSS_USERNAME`、`OPENGAUSS_PASSWORD` 是否正确
+- `OPENGAUSS_HOST`、`OPENGAUSS_PORT`、`OPENGAUSS_DATABASE`、`OPENGAUSS_SCHEMA`、`OPENGAUSS_USERNAME`、`OPENGAUSS_PASSWORD` 是否正确
 - 数据库实例是否可达（网络、端口、防火墙）
 - 账号是否具有目标 schema 的权限
 
@@ -121,16 +149,6 @@ java -jar target/opengauss-mcp.jar
 
 `run_select` 只允许只读查询。如需执行建表、更新、删除等操作，请使用 `execute_sql`。
 
-## 项目结构
+## License
 
-```text
-.
-├── lib/
-│   └── opengauss-jdbc-6.0.3.jar
-├── src/main/java/top/sanjeev/opengauss/
-│   ├── Application.java
-│   ├── McpServerConfiguration.java
-│   └── OpenGaussMcpTools.java
-├── src/main/resources/application.yaml
-└── pom.xml
-```
+[MIT](LICENSE)
