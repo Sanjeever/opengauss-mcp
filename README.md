@@ -77,7 +77,7 @@ npx @modelcontextprotocol/inspector --config ./mcp.json --server opengauss
 ### 4) 本地启动（stdio 模式）
 
 ```bash
-java -jar target/opengauss-mcp.jar
+java -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -jar target/opengauss-mcp.jar
 ```
 
 ## MCP 客户端接入示例
@@ -90,6 +90,9 @@ java -jar target/opengauss-mcp.jar
     "opengauss": {
       "command": "java",
       "args": [
+        "-Dfile.encoding=UTF-8",
+        "-Dsun.stdout.encoding=UTF-8",
+        "-Dsun.stderr.encoding=UTF-8",
         "-jar",
         "/absolute/path/to/opengauss-mcp/target/opengauss-mcp.jar"
       ],

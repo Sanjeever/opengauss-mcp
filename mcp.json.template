@@ -4,6 +4,9 @@
       "type": "stdio",
       "command": "java",
       "args": [
+        "-Dfile.encoding=UTF-8",
+        "-Dsun.stdout.encoding=UTF-8",
+        "-Dsun.stderr.encoding=UTF-8",
         "-jar",
         "./target/opengauss-mcp.jar"
       ],
